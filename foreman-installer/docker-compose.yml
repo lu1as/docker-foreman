@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  foreman:
+    hostname: foreman.local
+    image: foreman-installer
+    build: .
+    ports:
+      - 8080:80
+      - 8443:443
+    environment:
+      SERVER_HOSTNAME: foreman.local
+      DB_HOST: db
+      DB_DATABASE: foreman
+      DB_USERNAME: foreman
+      DB_PASSWORD: verysecret
+      REDIS_URL: redis://redis
+      ADMIN_PASSWORD: changeme
+      container: docker
+    links:
+      - db
+      - redis
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  db:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_DB: foreman
+      POSTGRES_USER: foreman
+      POSTGRES_PASSWORD: verysecret
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redisdata:/data
+
+
+volumes:
+  dbdata:
+    driver: local
+  redisdata:
+    driver: local

@@ -1,0 +1,26 @@
+stages:
+  - build
+  - release
+
+image: docker:git
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+build_server:
+  stage: build
+  script:
+    - cd foreman-server
+    - docker build -t $CI_REGISTRY_IMAGE/foreman-server:latest .
+    - docker push $CI_REGISTRY_IMAGE/foreman-server:latest
+  only:
+    - master
+
+# release:
+#   stage: release
+#   script:
+#     - docker pull $CI_REGISTRY_IMAGE:latest
+#     - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$CI_COMMIT_REF
+#     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF
+#   only:
+#     - tags

@@ -1,0 +1,11 @@
+{
+    "CN": "foreman.local",
+    "hosts": [
+        "foreman.local"
+    ],
+    "key": {
+        "algo": "ecdsa",
+        "size": 256
+    }
+}
+

@@ -1,0 +1,7 @@
+production:
+  adapter: postgresql
+  host: ##POSTGRES_HOST##
+  database: ##POSTGRES_DATABASE##
+  username: ##POSTGRES_USERNAME##
+  password: "##POSTGRES_PASSWORD##"
+  pool: 5
