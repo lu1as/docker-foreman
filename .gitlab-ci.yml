@@ -3,9 +3,10 @@ stages:
   - release
 
 image: docker:git
-
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+services:
+  - docker:dind
 
 build_server:
   stage: build
