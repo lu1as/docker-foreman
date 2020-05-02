@@ -8,12 +8,12 @@ before_script:
 services:
   - docker:dind
 
-build_server:
+build_foreman:
   stage: build
   script:
     - cd foreman-server
-    - docker build -t $CI_REGISTRY_IMAGE/foreman-server:latest .
-    - docker push $CI_REGISTRY_IMAGE/foreman-server:latest
+    - docker build -t $CI_REGISTRY_IMAGE/foreman:latest .
+    - docker push $CI_REGISTRY_IMAGE/foreman:latest
   only:
     - master
 
