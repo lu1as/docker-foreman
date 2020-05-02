@@ -2,20 +2,18 @@ version: '3'
 
 services:
   foreman:
-    image: foreman-server
+    image: foreman
     build: .
     ports:
       - 3000:3000
     environment:
-      FOREMAN_DOMAIN: virt.zotha.de
-      FOREMAN_FQDN: docker.virt.zotha.de
       REDIS_URL: redis://redis
       POSTGRES_HOST: db
       POSTGRES_DATABASE: foreman
       POSTGRES_USERNAME: foreman
       POSTGRES_PASSWORD: verysecret
       ENCRYPTION_KEY: dfc634db8becbb26cb23264b92b281a4
-      ADMIN_PASSWORD: changeme
+      FOREMAN_ADMIN_PASSWORD: changeme
     links:
       - db
       - redis
@@ -33,7 +31,6 @@ services:
     image: redis:6-alpine
     volumes:
       - redisdata:/data
-
 
 volumes:
   dbdata:
