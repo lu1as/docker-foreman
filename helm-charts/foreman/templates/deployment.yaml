@@ -24,7 +24,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - secretRef:
-              name: {{ include "foreman.fullname" . }}-config
+                name: {{ include "foreman.fullname" . }}-config
           ports:
             - name: http
               containerPort: 3000
