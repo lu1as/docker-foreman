@@ -65,5 +65,7 @@ postgresql:
 redis:
   install: true
   password: foreman
+  cluster:
+    enabled: false
   persistence:
     enabled: true
