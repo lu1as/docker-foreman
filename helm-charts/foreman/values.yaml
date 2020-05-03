@@ -33,6 +33,7 @@ config:
   FOREMAN_ADMIN_USER: admin
   FOREMAN_ADMIN_PASSWORD: changeme
   ENCRYPTION_KEY: dfc634db8becbb26cb23264b92b281a4
+  SECRET_TOKEN: mZFxE68zQ4DX2+6NKuB8zx0JaF3BliK7mVM8CyMTTU
 
 sshKeySecret: null
 certifiateAuthoritySecret: null
