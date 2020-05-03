@@ -3,8 +3,6 @@
 export SEED_ADMIN_USER=${FOREMAN_ADMIN_USER:-admin}
 export SEED_ADMIN_PASSWORD=${FOREMAN_ADMIN_PASSWORD:-changeme}
 
-sed -i "s/##FOREMAN_DOMAIN##/$FOREMAN_DOMAIN/g" /etc/foreman/settings.yaml
-sed -i "s/##FOREMAN_FQDN##/$FOREMAN_FQDN/g" /etc/foreman/settings.yaml
 sed -i "s/##REDIS_URL##/${REDIS_URL//\//\\/}/g" /etc/foreman/settings.yaml
 
 sed -i "s/##POSTGRES_HOST##/$POSTGRES_HOST/g" /etc/foreman/database.yml

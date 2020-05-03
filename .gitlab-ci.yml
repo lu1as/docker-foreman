@@ -15,7 +15,13 @@ build_foreman:
     - docker build -t $CI_REGISTRY_IMAGE/foreman:latest .
     - docker push $CI_REGISTRY_IMAGE/foreman:latest
   only:
-    - master
+    refs:
+      - master
+    changes:
+      - .gitlab-ci.yml
+      - foreman-server/Dockerfile
+      - foreman-server/entrypoint.sh
+      - foreman-server/config/**/*
 
 # release:
 #   stage: release
