@@ -34,6 +34,9 @@ config:
   FOREMAN_ADMIN_PASSWORD: changeme
   ENCRYPTION_KEY: dfc634db8becbb26cb23264b92b281a4
 
+sshKeySecret: null
+certifiateAuthoritySecret: null
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little

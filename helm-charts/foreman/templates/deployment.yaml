@@ -25,6 +25,19 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "foreman.fullname" . }}-config
+{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret }}
+          volumeMounts:
+{{- if .Values.sshKeySecret }}
+            - mountPath: /usr/share/foreman/.ssh
+              name: ssh-key
+              readOnly: true
+{{- end }}
+{{- if .Values.certifiateAuthoritySecret }}
+            - mountPath: /etc/pki/ca-trust/source/anchors
+              name: certificate-authority
+              readOnly: true
+{{- end }}
+{{- end }}
           ports:
             - name: http
               containerPort: 3000
@@ -52,3 +65,16 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret }}
+      volumes:
+{{- if .Values.sshKeySecret }}
+        - name: ssh-key
+          secret:
+            secretName: {{ .Values.sshKeySecret }}
+{{- end }}
+{{- if .Values.certifiateAuthoritySecret }}
+        - name: certificate-authority
+          secret:
+            secretName: {{ .Values.certifiateAuthoritySecret }}
+{{- end }}
+{{- end }}
