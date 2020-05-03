@@ -15,11 +15,13 @@ COPY entrypoint.sh /entrypoint.sh
 COPY --chown=foreman:foreman config/* /etc/foreman/
 
 RUN chown foreman /etc/foreman /usr/share/foreman/config/initializers/local_secret_token.rb \
-    && chmod 600 /etc/foreman/encryption_key.rb /etc/foreman/database.yml
-
-RUN yum install -y tfm-rubygem-foreman_templates tfm-rubygem-foreman_dhcp_browser
+    && chmod 600 /etc/foreman/encryption_key.rb /etc/foreman/database.yml \
+    && yum install -y sudo \
+    && echo "foreman ALL=NOPASSWD:/bin/update-ca-trust,/bin/yum" >> /etc/sudoers
 
 USER foreman
 WORKDIR /usr/share/foreman
 
 CMD ["/entrypoint.sh"]
+
+RUN sudo yum install -y tfm-rubygem-foreman_templates tfm-rubygem-foreman_dhcp_browser
