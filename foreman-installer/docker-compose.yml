@@ -30,7 +30,7 @@ services:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
   db:
-    image: postgres:12-alpine
+    image: postgres:11-alpine
     environment:
       POSTGRES_DB: foreman
       POSTGRES_USER: foreman
@@ -39,7 +39,7 @@ services:
       - dbdata:/var/lib/postgresql/data
 
   redis:
-    image: redis:6-alpine
+    image: redis:5-alpine
     volumes:
       - redisdata:/data
 

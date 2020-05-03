@@ -13,13 +13,14 @@ services:
       POSTGRES_USERNAME: foreman
       POSTGRES_PASSWORD: verysecret
       ENCRYPTION_KEY: dfc634db8becbb26cb23264b92b281a4
+      SECRET_TOKEN: mZFxE68zQ4DX2+6NKuB8zx0JaF3BliK7mVM8CyMTTU
       FOREMAN_ADMIN_PASSWORD: changeme
     links:
       - db
       - redis
 
   db:
-    image: postgres:12-alpine
+    image: postgres:11-alpine
     environment:
       POSTGRES_DB: foreman
       POSTGRES_USER: foreman
@@ -28,7 +29,7 @@ services:
       - dbdata:/var/lib/postgresql/data
 
   redis:
-    image: redis:6-alpine
+    image: redis:5-alpine
     volumes:
       - redisdata:/data
 

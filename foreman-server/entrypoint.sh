@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export SEED_ADMIN_USER=${FOREMAN_ADMIN_USER:-admin}
 export SEED_ADMIN_PASSWORD=${FOREMAN_ADMIN_PASSWORD:-changeme}
 
@@ -10,6 +12,8 @@ sed -i "s/##POSTGRES_DATABASE##/$POSTGRES_DATABASE/g" /etc/foreman/database.yml
 sed -i "s/##POSTGRES_USERNAME##/$POSTGRES_USERNAME/g" /etc/foreman/database.yml
 sed -i "s/##POSTGRES_PASSWORD##/$POSTGRES_PASSWORD/g" /etc/foreman/database.yml
 sed -i "s/##ENCRYPTION_KEY##/$ENCRYPTION_KEY/g" /etc/foreman/encryption_key.rb
+
+echo "Foreman::Application.config.secret_key_base = '$SECRET_TOKEN'" > /usr/share/foreman/config/initializers/local_secret_token.rb
 
 # check for new CA certificates and import them
 if [ ! -z "$(ls -A /etc/pki/ca-trust/source/anchors)" ]; then

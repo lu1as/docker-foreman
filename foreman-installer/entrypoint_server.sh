@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 SERVER_PRIVATE_KEY=${SERVER_PRIVATE_KEY:-"/etc/ssl/private_keys/foreman.pem"}
 SERVER_CERT=${SERVER_CERT:-"/etc/ssl/certs/foreman.pem"}
 SERVER_CA_CERT=${SERVER_CA_CERT:-"/etc/ssl/certs/foreman-ca.pem"}
