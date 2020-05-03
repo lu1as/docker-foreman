@@ -33,7 +33,7 @@ spec:
             httpGet:
               path: /users/login
               port: http
-              initialDelaySeconds: 100
+            initialDelaySeconds: 100
           readinessProbe:
             httpGet:
               path: /users/login
