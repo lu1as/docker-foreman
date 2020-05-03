@@ -62,5 +62,5 @@ Create postgresql host.
 Create redis URL.
 */}}
 {{- define "foreman.redisUrl" -}}
-{{- printf "redis://%s-redis-master" (include "foreman.fullname" .) -}}
+{{- printf "redis://:%s@%s-redis-master" .Values.redis.password (include "foreman.fullname" .) -}}
 {{- end -}}
