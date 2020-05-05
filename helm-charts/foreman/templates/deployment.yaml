@@ -25,7 +25,7 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "foreman.fullname" . }}-config
-{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret }}
+{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret .Values.tlsSecret }}
           volumeMounts:
 {{- if .Values.sshKeySecret }}
             - mountPath: /usr/share/foreman/.ssh
@@ -35,6 +35,11 @@ spec:
 {{- if .Values.certifiateAuthoritySecret }}
             - mountPath: /etc/pki/ca-trust/source/anchors
               name: certificate-authority
+              readOnly: true
+{{- end }}
+{{- if .Values.tlsSecret }}
+            - mountPath: /etc/ssl/foreman
+              name: tls
               readOnly: true
 {{- end }}
 {{- end }}
@@ -65,7 +70,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret }}
+{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret .Values.tlsSecret }}
       volumes:
 {{- if .Values.sshKeySecret }}
         - name: ssh-key
@@ -76,5 +81,10 @@ spec:
         - name: certificate-authority
           secret:
             secretName: {{ .Values.certifiateAuthoritySecret }}
+{{- end }}
+{{- if .Values.tlsSecret }}
+        - name: tls
+          secret:
+            secretName: {{ .Values.tlsSecret }}
 {{- end }}
 {{- end }}

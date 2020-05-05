@@ -35,8 +35,12 @@ config:
   ENCRYPTION_KEY: dfc634db8becbb26cb23264b92b281a4
   SECRET_TOKEN: mZFxE68zQ4DX2+6NKuB8zx0JaF3BliK7mVM8CyMTTU
 
+# ssh secret is mounted at ~/.ssh
 sshKeySecret: null
+# autorities are added to system trust
 certifiateAuthoritySecret: null
+# tls secret is mounted at /etc/ssl/foreman
+tlsSecret: null
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
