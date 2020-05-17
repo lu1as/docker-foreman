@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ include "foreman.fullname" . }}-nginx
+  name: {{ include "foreman.fullname" . }}-websockify-nginx
   labels:
     {{- include "foreman.labels" . | nindent 4 }}
 data:
@@ -25,14 +25,17 @@ data:
         access_log /var/log/nginx/access.log  main;
         keepalive_timeout 65;
         server {
-            listen 80;
-            listen [::]:80;
+            listen 5900;
+            listen [::]:5900;
 
             access_log /var/log/nginx/access.log  main;
 
             location ~ ^/websockify/([0-9]+)$ {
-                rewrite ^/websockify/.*$ / break;
-                proxy_pass http://127.0.0.1:$1;
+                proxy_pass https://127.0.0.1:$1;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "Upgrade";
+                proxy_set_header Host $host;
             }
         }
     }

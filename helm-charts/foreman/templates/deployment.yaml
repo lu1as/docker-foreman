@@ -58,16 +58,17 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        - name: {{ .Chart.Name }}-nginx
+        - name: websockify-nginx
           image: "{{ .Values.nginxSidecar.image.repository }}:{{ .Values.nginxSidecar.image.tag }}"
           imagePullPolicy: {{ .Values.nginxSidecar.image.pullPolicy }}
           volumeMounts:
-            - mountPath: /etc/nginx
+            - mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
               name: nginx-config
               readOnly: true
           ports:
             - name: websockify
-              containerPort: 80
+              containerPort: 5900
               protocol: TCP
       {{- with .Values.nodeSelector }}
       nodeSelector:

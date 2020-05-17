@@ -10,7 +10,7 @@ image:
 
 nginxSidecar:
   image:
-    repositoy: nginx
+    repository: nginx
     tag: stable
     pullPolicy: IfNotPresent
 
