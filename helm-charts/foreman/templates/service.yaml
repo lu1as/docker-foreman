@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.websockifyPort }}
+      targetPort: websockify
+      protocol: TCP
+      name: websockify
   selector:
     {{- include "foreman.selectorLabels" . | nindent 4 }}

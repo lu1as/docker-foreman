@@ -58,6 +58,17 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-nginx
+          image: "{{ .Values.nginxSidecar.image.repository }}:{{ .Values.nginxSidecar.image.tag }}"
+          imagePullPolicy: {{ .Values.nginxSidecar.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /etc/nginx
+              name: nginx-config
+              readOnly: true
+          ports:
+            - name: websockify
+              containerPort: 80
+              protocol: TCP
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -70,7 +81,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-{{- if or .Values.sshKeySecret .Values.certifiateAuthoritySecret .Values.tlsSecret }}
       volumes:
 {{- if .Values.sshKeySecret }}
         - name: ssh-key
@@ -87,4 +97,6 @@ spec:
           secret:
             secretName: {{ .Values.tlsSecret }}
 {{- end }}
-{{- end }}
+        - name: nginx-conf
+          configMap:
+            name: {{ include "foreman.fullname" . }}-nginx
