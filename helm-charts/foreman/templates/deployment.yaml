@@ -11,6 +11,9 @@ spec:
       {{- include "foreman.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         {{- include "foreman.selectorLabels" . | nindent 8 }}
     spec:
@@ -100,4 +103,4 @@ spec:
 {{- end }}
         - name: nginx-config
           configMap:
-            name: {{ include "foreman.fullname" . }}-nginx
+            name: {{ include "foreman.fullname" . }}-websockify-nginx
