@@ -97,6 +97,6 @@ spec:
           secret:
             secretName: {{ .Values.tlsSecret }}
 {{- end }}
-        - name: nginx-conf
+        - name: nginx-config
           configMap:
             name: {{ include "foreman.fullname" . }}-nginx
