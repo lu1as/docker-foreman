@@ -15,6 +15,13 @@ sed -i "s/##ENCRYPTION_KEY##/$ENCRYPTION_KEY/g" /etc/foreman/encryption_key.rb
 
 echo "Foreman::Application.config.secret_key_base = '$SECRET_TOKEN'" > /usr/share/foreman/config/initializers/local_secret_token.rb
 
+# add settings from environment (use prefix: FOREMAN_SETTINGS_)
+for setting in "${!FOREMAN_SETTINGS_@}"; do
+    name=${setting#FOREMAN_SETTINGS_}
+    printf 'set %s: %s\n' "${name,,}" "${!setting}"
+    echo ":${name,,}: ${!setting}" >> /etc/foreman/settings.yaml
+done
+
 # check for new CA certificates and import them
 if [ ! -z "$(ls -A /etc/pki/ca-trust/source/anchors)" ]; then
     sudo update-ca-trust

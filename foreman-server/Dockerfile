@@ -16,7 +16,8 @@ COPY --chown=foreman:foreman config/* /etc/foreman/
 
 RUN chown foreman /etc/foreman /usr/share/foreman/config/initializers/local_secret_token.rb \
     && chmod 600 /etc/foreman/encryption_key.rb /etc/foreman/database.yml \
-    && echo "foreman ALL=NOPASSWD:/bin/update-ca-trust,/bin/yum" >> /etc/sudoers
+    && echo "foreman ALL=NOPASSWD:/bin/update-ca-trust,/bin/yum" >> /etc/sudoers \
+    && sed -i "s/<%= @console\[:proxy_port] %>/<%= ENV['WEBSOCKIFY_PATH'] %>\/<%= @console[:proxy_port] %>/g" /usr/share/foreman/app/views/hosts/console/vnc.html.erb
 
 USER foreman
 WORKDIR /usr/share/foreman
